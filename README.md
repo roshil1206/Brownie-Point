@@ -1,4 +1,4 @@
-![Brownie Point logo](frontend/src/assets/Logo.png)
+<img src="frontend/src/assets/Logo.png"  width="200" height="200" />
 
 # Brownie Point
 
