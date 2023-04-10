@@ -84,3 +84,7 @@ Brownie Point was created with the help of the following resources:
 
 
 ## Dependendies & Usage Scenario:
+
+
+
+Please refer to the documents in the [Submission Documents](Submission Documents) directory for reference.
