@@ -17,51 +17,55 @@ stages:
   - package
   - deploy
 
-# smells-job:
-#   stage: smells
-#   image: maven:3.8.3-openjdk-17
-#   script:
-#   - echo "Start smells job"
-#   - mkdir smells/
-#   - java -jar backend/.gitlab/DesigniteJava.jar -i backend -o smells/ -d 
-#   - cd smells/
-#   - ls -a
-#   artifacts:
-#     paths:
-#       - smells/
-#       - backend
-#   only:
-#     - Develop
+smells-job:
+  stage: smells
+  image: maven:3.8.3-openjdk-17
+  script:
+  - echo "Start smells job"
+  - mkdir smells/
+  - java -jar backend/.gitlab/DesigniteJava.jar -i backend -o smells/ -d 
+  - cd smells/
+  - ls -a
+  artifacts:
+    paths:
+      - smells/
+      - backend
+  only:
+    - Develop
+    - main
 
-# issue-job:
-#   stage: issue
-#   dependencies:
-#     - smells-job
-#   image: "python:3.10"
-#   script:
-#     - ls smells/ -a
-#     - python --version
-#     - pip install -r backend/.gitlab/requirements.txt
-#     - echo "CI_COMMIT_SHA:" $CI_COMMIT_SHA
-#     - python backend/.gitlab/issue.py $CI_COMMIT_SHA
-#   only:
-#     - Develop
+issue-job:
+  stage: issue
+  dependencies:
+    - smells-job
+  image: "python:3.10"
+  script:
+    - ls smells/ -a
+    - python --version
+    - pip install -r backend/.gitlab/requirements.txt
+    - echo "CI_COMMIT_SHA:" $CI_COMMIT_SHA
+    - python backend/.gitlab/issue.py $CI_COMMIT_SHA
+  only:
+    - Develop
+    - main
 
-# build:
-#   stage: build
-#   image: maven:3.8.3-openjdk-17
-#   script:
-#     - mvn -f backend/pom.xml install
-#   only:
-#     - Develop
+build:
+  stage: build
+  image: maven:3.8.3-openjdk-17
+  script:
+    - mvn -f backend/pom.xml install
+  only:
+    - Develop
+    - main
 
-# test:
-#  stage: test
-#  image: maven:3.8.3-openjdk-17
-#  script:
-#    - mvn -f backend/pom.xml test
-#  only:
-#     - Develop
+test:
+ stage: test
+ image: maven:3.8.3-openjdk-17
+ script:
+   - mvn -f backend/pom.xml test
+ only:
+    - Develop
+    - main
 
 package:
   stage: package
@@ -73,6 +77,7 @@ package:
       - backend/target/*.jar
   only:
     - Develop
+    - main
 
 deploy:
   stage: deploy
@@ -96,6 +101,7 @@ deploy:
     - ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@csci5308vm3.research.cs.dal.ca  docker run -d -p 8080:8080 csci5308vm3.research.cs.dal.ca:5000/bpa:latest
   only:
     - Develop
+    - main
     
   
 
