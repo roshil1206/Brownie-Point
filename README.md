@@ -1,3 +1,5 @@
+![Brownie Point logo](frontend/src/assets/Logo.png)
+
 # Brownie Point
 
 Brownie Point is a tool designed to track and manage student involvement, engagement, and performance in classrooms using a point system. It is built with React Native, Java, and Spring Framework, along with other open-source technologies.
